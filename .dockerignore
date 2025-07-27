@@ -1,0 +1,24 @@
+# Ignore compiled Python bytecode files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore all environment files (e.g., secrets, keys, tokens)
+.env
+.env.*
+
+# Ignore local database files
+*.db
+*.sqlite
+
+# Ignore JetBrains IDE settings (e.g., PyCharm)
+.idea/
+
+# Ignore VSCode editor settings
+.vscode/
+
+# Git specific files
+.git/
+.gitignore
+README.md

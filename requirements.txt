@@ -1,8 +1,17 @@
+# === Core Web Framework ===
 fastapi
 uvicorn[standard]
+
+# === Database & ORM ===
 sqlalchemy
 psycopg2-binary
+
+# === Validation & Config ===
 pydantic
 python-dotenv
+
+# === Database Migration ===
 alembic
+
+# === Logging ===
 python-json-logger

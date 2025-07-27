@@ -1,4 +1,3 @@
-
 # Ask Your Document
 
 ---
@@ -12,7 +11,7 @@ It enables users to:
 - Ask questions about document content  
 - Simulate an LLM-generated answer asynchronously using Python's `asyncio`
 
-This project mimics an LLM-powered app's behavior while focusing on core backend and async design skills.
+This project mimics the behavior of an LLM-powered app while focusing on core backend and async design skills.
 
 ---
 
@@ -22,22 +21,20 @@ This project mimics an LLM-powered app's behavior while focusing on core backend
 - **ORM**: SQLAlchemy  
 - **Database**: PostgreSQL  
 - **Async**: asyncio  
-- **Dev Tools**: Uvicorn, python-dotenv  
+- **Dev Tools**: Uvicorn, python-dotenv, Docker 
 
 ---
 
-## Installation
+## Installation (Non-Docker)
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
 git clone https://github.com/Nachiket-2024/ask_your_document.git
 cd ask_your_document
 ```
 
-### 2. Set up the environment
-
-Install Backend dependencies with pip:
+### 2. Install Dependencies
 
 ```bash
 pip install -r requirements.txt
@@ -45,46 +42,73 @@ pip install -r requirements.txt
 
 ---
 
-## .env Setup
+## Environment Setup
 
-Rename the `.env.example` file to `.env` file at the root of the project (ask_your_document) with the following content:
+Rename the `.env.example` file to `.env` file at the root of the project (ask_your_document) and add the following:
 
 ```ini
-# Postgresql Database URL
-DATABASE_URL=postgresql://username:password@localhost:5432/db_name_here
+# PostgreSQL Database URL (local)
+DATABASE_URL=postgresql://your_user:your_password@localhost:5432/your_database
 
+# If using Docker (connect to db container)
+# DATABASE_URL=postgresql://your_user:your_password@db:5432/your_database
+
+POSTGRES_USER=your_user
+POSTGRES_PASSWORD=your_password
+POSTGRES_DB=your_database
 ```
+
+---
 
 ## Run the App
 
-### Start the FastAPI backend
+You can run the FastAPI application either locally or using Docker:
+
+### ▶ Option 1: Run Locally (Recommended for development)
+
+Make sure PostgreSQL is running and your `.env` is configured, then start the FastAPI app:
 
 ```bash
 uvicorn backend.main:app --reload
 ```
 
+### ▶ Option 2: Run with Docker (Recommended for full environment setup)
+
+This starts both the FastAPI app and PostgreSQL in containers:
+
+```bash
+docker-compose up --build
+```
+
 ---
 
-### API Endpoints
+## API Endpoints
 
-| Method | Route                      | Description                         |
-|--------|----------------------------|-------------------------------------|
-| POST   | `/documents/`              | Upload a document                   |
-| GET    | `/documents/{id}`          | Get document by ID                  |
-| POST   | `/documents/{id}/question` | Ask a question about a document     |
-| GET    | `/questions/{id}`          | Get status and answer of a question |
-| GET    | `/health`                  | Health check (returns `OK`)         |
+| Method | Route                               | Description                         |
+|--------|-------------------------------------|-------------------------------------|
+| POST   | `/documents/`                       | Upload a document                   |
+| GET    | `/documents/{document_id}`          | Get a document by ID                |
+| POST   | `/documents/{document_id}/question` | Ask a question about a document     |
+| GET    | `/questions/{question_id}`          | Get status and answer of a question |
+| GET    | `/health`                           | Health check (returns `OK`)         |
 
 ---
 
 ## API Documentation
 
-FastAPI automatically provides interactive API docs.
+FastAPI automatically generates interactive API docs:
 
-- **Swagger UI** (Try out endpoints):  
+- **Swagger UI** – Try out endpoints:  
   [http://localhost:8000/docs](http://localhost:8000/docs)
 
-- **ReDoc** (Alternative view):  
+- **ReDoc** – Alternative documentation UI:  
   [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---
+
+## Testing
+
+You can test endpoints manually using:
+
+- Swagger UI (`/docs`)
+- curl / HTTP clients like Postman

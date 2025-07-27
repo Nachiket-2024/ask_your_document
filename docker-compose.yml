@@ -1,0 +1,53 @@
+services:
+  db:
+    # Use the official Postgres 15 image as the database
+    image: postgres:15
+
+    # Configure Postgres using environment variables from .env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}         # Username for Postgres
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD} # Password for Postgres
+      POSTGRES_DB: ${POSTGRES_DB}             # Initial database to create
+
+    # Map host port 5432 to container port 5432 for local DB access
+    ports:
+      - "5432:5432"
+
+    # Persist Postgres data using a named volume so data isn't lost on restart
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  app:
+    # Build the application image from Dockerfile in the current directory
+    build:
+      context: .            # Use the current directory as build context
+      dockerfile: Dockerfile  # Explicitly specify Dockerfile name
+
+    # Mount the local backend directory into the container for live development
+    volumes:
+      - ./backend:/app/backend  # Maps ./backend to /app/backend in the container
+
+    # Expose FastAPI's default port 8000 to the host
+    ports:
+      - "8000:8000"
+
+    # Load environment variables from .env file for use inside container
+    env_file:
+      - .env
+
+    # Ensure the database container is started before the app container
+    depends_on:
+      - db
+
+    # Run Alembic migrations before starting the FastAPI server
+    # - `sh -c` allows running multiple shell commands in one string
+    # - `alembic upgrade head` applies all DB migrations
+    # - `uvicorn` launches the FastAPI app on all interfaces (0.0.0.0) and port 8000
+    command: >
+      sh -c "alembic upgrade head &&
+        uvicorn backend.main:app --host 0.0.0.0 --port 8000"
+# Alembic ensures DB schema is up to date; Uvicorn runs the API
+
+# Declare a named volume to persist Postgres database data
+volumes:
+  postgres_data:

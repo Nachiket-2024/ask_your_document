@@ -1,16 +1,28 @@
+
 # Ask Your Document
 
 ---
 
 ## Overview
 
-ask_your_document is a lightweight backend microservice built with FastAPI and PostgreSQL. It lets users upload documents and ask questions about their content. Answers are simulated asynchronously using Python's asyncio, mimicking the behavior of a language model without actual LLM integration.
+**Ask Your Document** is a lightweight backend microservice built with **FastAPI** and **PostgreSQL**.  
+It enables users to:
+
+- Upload documents  
+- Ask questions about document content  
+- Simulate an LLM-generated answer asynchronously using Python's `asyncio`
+
+This project mimics an LLM-powered app's behavior while focusing on core backend and async design skills.
 
 ---
 
 ## Tech Stack
 
-- **Backend**: Python ,FastAPI, SQLAlchemy, PostgreSQL 
+- **Backend**: Python, FastAPI  
+- **ORM**: SQLAlchemy  
+- **Database**: PostgreSQL  
+- **Async**: asyncio  
+- **Dev Tools**: Uvicorn, python-dotenv  
 
 ---
 
@@ -33,6 +45,16 @@ pip install -r requirements.txt
 
 ---
 
+## .env Setup
+
+Rename the `.env.example` file to `.env` file at the root of the project (ask_your_document) with the following content:
+
+```ini
+# Postgresql Database URL
+DATABASE_URL=postgresql://username:password@localhost:5432/db_name_here
+
+```
+
 ## Run the App
 
 ### Start the FastAPI backend
@@ -43,14 +65,26 @@ uvicorn backend.main:app --reload
 
 ---
 
-## .env Setup
+### API Endpoints
 
-Make a `.env` file at the root of the project (ask_your_document) with the following content:
+| Method | Route                      | Description                         |
+|--------|----------------------------|-------------------------------------|
+| POST   | `/documents/`              | Upload a document                   |
+| GET    | `/documents/{id}`          | Get document by ID                  |
+| POST   | `/documents/{id}/question` | Ask a question about a document     |
+| GET    | `/questions/{id}`          | Get status and answer of a question |
+| GET    | `/health`                  | Health check (returns `OK`)         |
 
-```ini
-# Postgresql Database URL
-DATABASE_URL=postgresql://username:password@localhost:5432/db_name_here
+---
 
-```
+## API Documentation
+
+FastAPI automatically provides interactive API docs.
+
+- **Swagger UI** (Try out endpoints):  
+  [http://localhost:8000/docs](http://localhost:8000/docs)
+
+- **ReDoc** (Alternative view):  
+  [http://localhost:8000/redoc](http://localhost:8000/redoc)
 
 ---

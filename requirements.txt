@@ -5,4 +5,4 @@ psycopg2-binary
 pydantic
 python-dotenv
 alembic
-pydantic-settings
+python-json-logger

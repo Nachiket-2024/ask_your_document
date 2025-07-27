@@ -1,0 +1,25 @@
+# --- Python ---
+__pycache__/
+*.pyc
+*.pyo
+*.sqlite3
+*.db
+.env
+*.env
+.pytest_cache
+
+# --- Virtual Envs ---
+venv/
+env/
+.venv/
+
+# --- Alembic Migrations ---
+alembic/versions/
+
+# --- Editor / OS ---
+.vscode/
+.DS_Store
+
+# --- Logs ---
+logs/
+*.log

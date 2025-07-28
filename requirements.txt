@@ -15,3 +15,6 @@ alembic
 
 # === Logging ===
 python-json-logger
+
+# === File Upload Support ===
+python-multipart
